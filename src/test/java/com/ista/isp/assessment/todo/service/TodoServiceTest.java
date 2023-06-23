@@ -1,5 +1,6 @@
 package com.ista.isp.assessment.todo.service;
 
+import com.ista.isp.assessment.todo.model.Todo;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,45 +18,52 @@ public class TodoServiceTest {
 
     @Test
     public void givenEmptyList_whenOneTaskAdded_ThenListSizeIsGreaterThan0() {
-        Assert.assertTrue(todoService.addTask("FirstTask").size() > 0);
+        Todo task = new Todo("FirstTask", false);
+        Assert.assertTrue(todoService.addTask(task).size() > 0);
     }
 
     @Test
     public void givenAList_whenOneTaskAdded_ThenListSizeIncrease() {
-        List<String> taskList = new ArrayList<String>(Arrays.asList("FirstTask", "SecondTask"));
+        ArrayList<Todo> taskList = new ArrayList<Todo>(Arrays.asList(
+                new Todo("FirstTask", false), new Todo("SecondTask", false)));
         todoService.setTaskList(taskList);
         int initialTaskListSize = todoService.getTaskList().size();
-        todoService.addTask("Last Task");
+        todoService.addTask(new Todo("LastTask", false));
         Assert.assertTrue((todoService.getTaskList().size() - initialTaskListSize) > 0);
     }
 
     @Test
     public void givenAList_whenGetAll_ThenReturnTheList() {
-        List<String> taskList = new ArrayList<String>(Arrays.asList("FirstTask", "SecondTask"));
+        ArrayList<Todo> taskList = new ArrayList<Todo>(Arrays.asList(
+                new Todo("FirstTask", false), new Todo("SecondTask", false)));
         todoService.setTaskList(taskList);
         Assert.assertTrue((todoService.getTaskList().size()) > 0);
     }
 
     @Test
     public void givenEmptyList_whenGetAll_ThenReturnEmptyList() {
-        List<String> taskList = new ArrayList<String>();
+        List<Todo> taskList = new ArrayList<Todo>();
         todoService.setTaskList(taskList);
         Assert.assertFalse((todoService.getTaskList().size()) > 0);
     }
 
     @Test
     public void givenAList_whenDeleteTask_ThenReturnRestOfList() {
-        List<String> taskList = new ArrayList<String>(Arrays.asList("FirstTask", "SecondTask", "ThirdTask"));
+        ArrayList<Todo> taskList = new ArrayList<Todo>(Arrays.asList(
+                new Todo(11, "FirstTask", false), new Todo(12, "SecondTask", false),
+                new Todo(13, "ThirdTask", false)));
+        List<Todo> taskList1 = new ArrayList<Todo>();
+        todoService.getTaskList().clear();
         todoService.setTaskList(taskList);
-        todoService.deleteTask("SecondTask");
+        todoService.deleteTask(new Todo(12, "SecondTask", false));
         Assert.assertTrue((todoService.getTaskList().size()) == 2);
     }
 
     @Test
     public void givenEmptyList_whenDeleteTask_ThenReturnEmptyList() {
-        List<String> taskList = new ArrayList<String>();
+        List<Todo> taskList = new ArrayList<Todo>();
         todoService.setTaskList(taskList);
-        todoService.deleteTask("SecondTask");
+        todoService.deleteTask(new Todo("SecondTask", false));
         Assert.assertFalse((todoService.getTaskList().size()) > 0);
     }
 }
