@@ -16,22 +16,22 @@ public class TodoController {
     @Autowired
     TodoService todoService;
 
-    @PostMapping("")
+    @PostMapping
     public List<Todo> addTask(@RequestBody Todo todoTask) {
         return todoService.addTask(todoTask);
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<Todo> GetAllTasks() {
         return todoService.getTaskList();
     }
 
-    @DeleteMapping("")
+    @DeleteMapping
     public List<Todo> deleteTask(@RequestBody Todo task) {
         return todoService.deleteTask(task);
     }
 
-    @PutMapping("")
+    @PutMapping
     public List<Todo> updateTask(@RequestBody Todo task) {
         return todoService.updateTask(task);
     }
